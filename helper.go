@@ -3,6 +3,8 @@ package main
 import (
   "github.com/howeyc/fsnotify"
   "log"
+  "bufio"
+  "os"
 )
 
 func chicken() {
@@ -18,7 +20,7 @@ func watch_bash_history() {
 
     println("creating done")
     done := make(chan bool)
-
+    
     // Process events
     go func() {
         counter := 0
@@ -31,14 +33,26 @@ func watch_bash_history() {
                 }
 
                 println(counter)
-                log.Println("event:", ev)
+                file, err := os.Open("~/.bash_history")
+                if err != nil {
+                  println("error")
+                }
+                reader := bufio.NewReader(file)
+                scanner := bufio.NewScanner(reader)
+
+                scanner.Split(bufio.ScanLines)
+                text := "" 
+                for scanner.Scan() {
+                  text = scanner.Text()
+                }
+                log.Println("text: ", text)
             case err := <-watcher.Error:
                 log.Println("error:", err)
             }
         }
     }()
 
-    err = watcher.Watch("shloom")
+    err = watcher.Watch("~/.bash_history")
     if err != nil {
         log.Fatal(err)
     }
