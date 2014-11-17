@@ -7,10 +7,6 @@ import (
   "os"
 )
 
-func chicken() {
-  println("LALALALA")
-}
-
 func watch_bash_history(fileToWatch string) {
     watcher, err := fsnotify.NewWatcher()
     if err != nil {
@@ -23,16 +19,9 @@ func watch_bash_history(fileToWatch string) {
 
     // Process events
     go func() {
-        counter := 0
         for {
             select {
             case <-watcher.Event:
-                counter += 1
-                if (counter > 2) {
-                  done <- true
-                }
-
-                println(counter)
                 file, err := os.Open(fileToWatch)
                 if err != nil {
                   println("error")
