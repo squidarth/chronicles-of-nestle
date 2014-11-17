@@ -26,7 +26,7 @@ func watch_bash_history() {
         counter := 0
         for {
             select {
-            case ev := <-watcher.Event:
+            case <-watcher.Event:
                 counter += 1
                 if (counter > 2) {
                   done <- true
@@ -47,7 +47,6 @@ func watch_bash_history() {
                 }
                 log.Println("text: ", text)
 
-                log.Println(ev) 
             case err := <-watcher.Error:
                 log.Println("error:", err)
             }
