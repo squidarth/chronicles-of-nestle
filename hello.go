@@ -10,7 +10,7 @@ func main() {
   app.Name = "boom"
   app.Usage = "make an explosive entrance"
   app.Action = func(c *cli.Context) {
-    watch_bash_history()
+    watch_bash_history(c.Args()[0])
     println("watch is done")
   }
 

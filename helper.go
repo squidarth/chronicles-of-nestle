@@ -11,7 +11,7 @@ func chicken() {
   println("LALALALA")
 }
 
-func watch_bash_history() {
+func watch_bash_history(fileToWatch string) {
     watcher, err := fsnotify.NewWatcher()
     if err != nil {
         println("some error")
@@ -33,7 +33,7 @@ func watch_bash_history() {
                 }
 
                 println(counter)
-                file, err := os.Open("/Users/sidharthshanker/.zsh_history")
+                file, err := os.Open(fileToWatch)
                 if err != nil {
                   println("error")
                 }
@@ -53,7 +53,7 @@ func watch_bash_history() {
         }
     }()
 
-    err = watcher.Watch("/Users/sidharthshanker/.zsh_history")
+    err = watcher.Watch(fileToWatch)
     if err != nil {
         log.Fatal(err)
     }
