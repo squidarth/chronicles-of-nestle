@@ -20,7 +20,7 @@ func watch_bash_history() {
 
     println("creating done")
     done := make(chan bool)
-    
+
     // Process events
     go func() {
         counter := 0
@@ -33,7 +33,7 @@ func watch_bash_history() {
                 }
 
                 println(counter)
-                file, err := os.Open("~/.bash_history")
+                file, err := os.Open("/Users/sidharthshanker/.zsh_history")
                 if err != nil {
                   println("error")
                 }
@@ -41,18 +41,20 @@ func watch_bash_history() {
                 scanner := bufio.NewScanner(reader)
 
                 scanner.Split(bufio.ScanLines)
-                text := "" 
+                text := ""
                 for scanner.Scan() {
                   text = scanner.Text()
                 }
                 log.Println("text: ", text)
+
+                log.Println(ev) 
             case err := <-watcher.Error:
                 log.Println("error:", err)
             }
         }
     }()
 
-    err = watcher.Watch("~/.bash_history")
+    err = watcher.Watch("/Users/sidharthshanker/.zsh_history")
     if err != nil {
         log.Fatal(err)
     }
