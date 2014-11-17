@@ -23,16 +23,9 @@ func watch_bash_history() {
 
     // Process events
     go func() {
-        counter := 0
         for {
             select {
             case <-watcher.Event:
-                counter += 1
-                if (counter > 2) {
-                  done <- true
-                }
-
-                println(counter)
                 file, err := os.Open("/Users/sidharthshanker/.zsh_history")
                 if err != nil {
                   println("error")
